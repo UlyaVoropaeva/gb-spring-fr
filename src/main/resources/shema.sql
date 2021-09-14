@@ -13,8 +13,6 @@ create table if not exists PRODUCT
     PRICE INTERSECT
     );
 
-
-
 create table if not exists USERS
 (
     ID

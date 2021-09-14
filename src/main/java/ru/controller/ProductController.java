@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping(value = "/products")
 public class ProductController {
@@ -30,7 +31,6 @@ public class ProductController {
     public Product findById(@PathVariable Long id) throws Exception {
         return productDao.getById(id);
     }
-
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -18,14 +18,12 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserDao {
 
-
     @PersistenceContext
     private EntityManager entityManager;
 
     public Optional<User> findById(long id) {
         return Optional.ofNullable(entityManager.find(User.class, id));
     }
-
 
     public List<User> findAll() {
         return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
