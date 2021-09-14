@@ -29,11 +29,10 @@ public class ProductDao {
             throw new NullPointerException();
         }
 
-        return entityManager.createQuery("from Product where id = :id", Product.class)
-                .setParameter("id", id)
-                .getSingleResult();
-
+        return entityManager.find(Product.class, id);
+              
     }
+
 
     public Optional<Product> findById(Long id) {
         return Optional.ofNullable(entityManager.find(Product.class, id));

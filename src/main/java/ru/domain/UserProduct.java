@@ -2,6 +2,7 @@ package ru.domain;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "users_product")
 public class UserProduct {
@@ -13,7 +14,6 @@ public class UserProduct {
 
     @Column(name = "price")
     private int price;
-
 
     @Column(name = "count")
     private int count;
