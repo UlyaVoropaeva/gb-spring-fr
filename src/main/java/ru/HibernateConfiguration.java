@@ -17,7 +17,6 @@ public class HibernateConfiguration {
 
     }
 
-
     @Bean
     public EntityManager entityManager() {
         return emFactory().createEntityManager();

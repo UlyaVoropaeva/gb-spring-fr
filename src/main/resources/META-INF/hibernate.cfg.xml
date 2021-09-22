@@ -2,7 +2,6 @@
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
-
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
@@ -21,4 +20,3 @@
         <mapping class="ru.domain.UserProduct"/>
     </session-factory>
 </hibernate-configuration>
-

@@ -3,7 +3,6 @@ package ru.domain;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -12,7 +11,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-
 
     @Column(name = "name")
     private String name;
