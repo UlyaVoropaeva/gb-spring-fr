@@ -15,6 +15,7 @@ public class Client {
     @Column(name = "name")
     private String name;
 
+
     @OneToMany(mappedBy = "client")
     private List<UserProduct> userProducts;
 

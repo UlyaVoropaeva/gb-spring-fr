@@ -31,6 +31,7 @@ create table if not exists USERS
 )
     );
 
+
 create table if not exists USERS_PRODUCT
 (
     ID
