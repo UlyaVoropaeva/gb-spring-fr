@@ -16,4 +16,5 @@ public interface ProductService  {
     List<Product> filterByPriceMin();
     List<Product> filterByPriceMax();
     List<Product> filterByPriceMinMax();
+
 }

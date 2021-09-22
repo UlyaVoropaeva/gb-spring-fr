@@ -55,6 +55,7 @@ public class ProductDao {
         return resultList;
     }
 
+
     public Product getById(Long id) {
         if (id == null) {
             throw new NullPointerException();

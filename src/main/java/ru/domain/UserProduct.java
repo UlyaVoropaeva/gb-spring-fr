@@ -42,6 +42,7 @@ public class UserProduct {
         return client;
     }
 
+
     public Product getProduct() {
         return product;
     }

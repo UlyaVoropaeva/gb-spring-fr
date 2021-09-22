@@ -68,6 +68,7 @@ public class ClientDao {
         return new ArrayList<>();
     }
 
+
     public List<Product> getProducts(Client client) {
         ArrayList<Product> products = new ArrayList<>();
         for (UserProduct usersProduct : client.getUserProducts()) {
