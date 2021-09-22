@@ -48,7 +48,6 @@ public class ProductDao {
         return resultList;
     }
 
-
     public List<Product> filterByPriceMax(){
         List<Product> resultList = entityManager
                 .createQuery("select max (p.price) from Product as p", Product.class)

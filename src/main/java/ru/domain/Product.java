@@ -19,7 +19,6 @@ public class Product {
     @Column(name = "price")
     private int price;
 
-
     @OneToMany(mappedBy = "product")
     private List<UserProduct> userProducts;
 
