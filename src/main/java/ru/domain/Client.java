@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +15,7 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "client")
     private List<UserProduct> userProducts;
 
     public List<UserProduct> getUserProducts() {
@@ -33,7 +33,6 @@ public class User {
     public String getName() {
         return name;
     }
-
 
     public void setName(String name) {
         this.name = name;

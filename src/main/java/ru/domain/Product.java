@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Product {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,7 +28,6 @@ public class Product {
 
     public Product() {
     }
-
 
     public Product(String name, int price) {
         this.name = name;

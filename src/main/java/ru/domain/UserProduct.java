@@ -2,7 +2,6 @@ package ru.domain;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "users_product")
 public class UserProduct {
@@ -20,7 +19,7 @@ public class UserProduct {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -39,8 +38,8 @@ public class UserProduct {
         return count;
     }
 
-    public User getUser() {
-        return user;
+    public Client getUser() {
+        return client;
     }
 
     public Product getProduct() {
