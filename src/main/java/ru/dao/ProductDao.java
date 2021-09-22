@@ -1,8 +1,5 @@
 package ru.dao;
 
-
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.domain.Product;
 import ru.domain.Client;
@@ -35,24 +32,23 @@ public class ProductDao {
 
 
     public List<Product> filterByPriceMin(){
-        List<Product> resultList = entityManager
+       return entityManager
                 .createQuery("select min (p.price) from Product as p", Product.class)
                 .getResultList();
-        return resultList;
     }
 
     public List<Product> filterByPriceMinMax(){
-        List<Product> resultList = entityManager
+        return  entityManager
                 .createQuery("select min (p.price)  as min, max (p.price) as max from Product as p", Product.class)
                 .getResultList();
-        return resultList;
+
     }
 
     public List<Product> filterByPriceMax(){
-        List<Product> resultList = entityManager
+        return  entityManager
                 .createQuery("select max (p.price) from Product as p", Product.class)
                 .getResultList();
-        return resultList;
+
     }
 
 
@@ -90,10 +86,9 @@ public class ProductDao {
 
 
     public List<Product> findAll() {
-        List<Product> resultList = entityManager
+        return entityManager
                 .createQuery("select p from Product as p", Product.class)
                 .getResultList();
-        return resultList;
     }
 
     public void deleteById(Long id) {
@@ -102,6 +97,7 @@ public class ProductDao {
             entityManager.remove(product);
         }
     }
+
 
     public List<UserProduct> getUserProductsByProductId(Long id) {
         Optional<Product> pro = findById(id);

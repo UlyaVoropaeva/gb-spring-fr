@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 public class FirstSpringBootApp {
 
-
     public static void main(String[] args) {
         SpringApplication.run(FirstSpringBootApp.class, args);
     }

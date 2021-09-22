@@ -26,6 +26,7 @@ public class UserProduct {
     private Product product;
 
 
+
     public long getId() {
         return id;
     }

@@ -65,5 +65,4 @@ public class ProductController {
         productService.saveOrUpdate(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 }
