@@ -1,52 +1,68 @@
 package ru.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.dao.ProductDao;
+import org.springframework.http.ResponseEntity;
 import ru.domain.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import ru.servise.ProductService;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/products")
+@RequestMapping(value = "/app/products")
 public class ProductController {
 
-    @Autowired
-    private ProductDao productDao;
+    private final ProductService productService;
 
-    public ProductController(ProductDao productDao) {
-        this.productDao = productDao;
+    @Autowired
+    public ProductController( ProductService productService) {
+        this.productService = productService;
+
+    }
+
+    @GetMapping("/min")
+    public List<Product> filterByPriceMin() {
+        List<Product> products = new ArrayList<>();
+        productService.filterByPriceMin().forEach(products::add);
+        return products;
+    }
+
+    @GetMapping("/max")
+    public List<Product> filterByPriceMax(){
+        List<Product> products = new ArrayList<>();
+        productService.filterByPriceMax().forEach(products::add);
+        return products;
+    }
+
+    @GetMapping("/maxmin")
+    public List<Product> filterByPriceMinMax() {
+        List<Product> products = new ArrayList<>();
+        productService.filterByPriceMinMax().forEach(products::add);
+        return products;
     }
 
     @GetMapping()
-    @ResponseBody
     public List<Product> findAll() {
-        return productDao.findAll();
+        List<Product> products = new ArrayList<>();
+        productService.findAll().forEach(products::add);
+        return products;
     }
 
     @GetMapping("/{id}")
-    @ResponseBody
-    public Product findById(@PathVariable Long id) throws Exception {
-        return productDao.getById(id);
+    public Product findById(@PathVariable Long id)  {
+        return productService.getById(id);
     }
-
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws Exception {
-        productDao.deleteById(id);
+    public void delete(@PathVariable Long id) {
+        productService.deleteById( id);
     }
-
 
     @PostMapping()
-    @ResponseBody
-    public List<Product> save(@RequestBody Product product) {
-
-        productDao.saveOrUpdate(product);
-        return productDao.findAll();
-
+    public ResponseEntity<?> create(@RequestBody Product product) {
+        productService.saveOrUpdate(product);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-
 }

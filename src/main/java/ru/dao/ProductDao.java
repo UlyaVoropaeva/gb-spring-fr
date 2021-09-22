@@ -1,12 +1,13 @@
 package ru.dao;
 
-
 import org.springframework.stereotype.Repository;
 import ru.domain.Product;
-import ru.domain.User;
+import ru.domain.Client;
 import ru.domain.UserProduct;
 
+
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -18,21 +19,47 @@ import java.util.stream.Collectors;
 @Transactional
 public class ProductDao {
 
-
     @PersistenceContext
     private EntityManager entityManager;
 
+    private final EntityManagerFactory managerFactory;
+
+    public ProductDao(EntityManagerFactory managerFactory) {
+        this.managerFactory = managerFactory;
+    }
+
     private List<Product> products = new ArrayList<>();
+
+
+    public List<Product> filterByPriceMin(){
+       return entityManager
+                .createQuery("select min (p.price) from Product as p", Product.class)
+                .getResultList();
+    }
+
+    public List<Product> filterByPriceMinMax(){
+        return  entityManager
+                .createQuery("select min (p.price)  as min, max (p.price) as max from Product as p", Product.class)
+                .getResultList();
+
+    }
+
+    public List<Product> filterByPriceMax(){
+        return  entityManager
+                .createQuery("select max (p.price) from Product as p", Product.class)
+                .getResultList();
+
+    }
+
 
     public Product getById(Long id) {
         if (id == null) {
             throw new NullPointerException();
         }
 
-        return entityManager.createQuery("from Product where id = :id", Product.class)
+        return entityManager.createQuery("SELECT p FROM Product  as p WHERE p.id = :id", Product.class)
                 .setParameter("id", id)
                 .getSingleResult();
-
     }
 
     public Optional<Product> findById(Long id) {
@@ -59,10 +86,9 @@ public class ProductDao {
 
 
     public List<Product> findAll() {
-        List<Product> resultList = entityManager
+        return entityManager
                 .createQuery("select p from Product as p", Product.class)
                 .getResultList();
-        return resultList;
     }
 
     public void deleteById(Long id) {
@@ -71,6 +97,7 @@ public class ProductDao {
             entityManager.remove(product);
         }
     }
+
 
     public List<UserProduct> getUserProductsByProductId(Long id) {
         Optional<Product> pro = findById(id);
@@ -86,7 +113,7 @@ public class ProductDao {
     }
 
 
-    public List<User> getUsersByProductId(long id) {
+    public List<Client> getUsersByProductId(long id) {
         Optional<Product> pro = findById(id);
         if (pro.isPresent()) {
             return getUsers(pro.get());
@@ -95,11 +122,11 @@ public class ProductDao {
     }
 
 
-    public List<User> getUsers(Product product) {
-        ArrayList<User> users = new ArrayList<>();
+    public List<Client> getUsers(Product product) {
+        ArrayList<Client> clients = new ArrayList<>();
         for (UserProduct userProduct : product.getUserProducts()) {
-            users.add(userProduct.getUser());
+            clients.add(userProduct.getUser());
         }
-        return users.stream().distinct().collect(Collectors.toList());
+        return clients.stream().distinct().collect(Collectors.toList());
     }
 }
