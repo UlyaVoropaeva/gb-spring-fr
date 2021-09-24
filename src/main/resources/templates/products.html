@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<h2>Products</h2>
+<th:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
+    <th:url value="/" var="url">
+        <th:param name="page" value="${i.index}"/>
+    </th:url>
+    <a href="${url}">${i.index}</a>
+</th:forEach>
+<table>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>price</th>
+    </tr>
+    <li th:each="product : ${products}">
+        <tr>
+            <td>${product.id}</td>
+            <td>${product.name}</td>
+            <td>${product.price}</td>
+
+            <td>
+                <a href="/edit/${product.id}">edit</a>
+                <a href="/delete/${product.id}">delete</a>
+
+            </td>
+    </li>
+    </tr>
+
+    </th:forEach>
+</table>
+
+<h2>Add</h2>
+<th:url value="/product-add" var="product-add"/>
+<a href="${product-add}">Add new product</a>
+</body>
+</html>

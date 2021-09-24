@@ -1,5 +1,5 @@
 server:
-  port: 8180
+  port: 8080
   servlet:
     context-path: /api/v1
 
@@ -13,4 +13,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
-
+  thymeleaf:
+    check-template-location: true
+    servlet:
+      content-type: text/html
+    enabled: true
+    encoding: UTF-8
+    mode: HTML5
+    suffix: .html
+    prefix: classpath:/templates/

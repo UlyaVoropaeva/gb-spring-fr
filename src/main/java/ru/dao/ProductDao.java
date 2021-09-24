@@ -31,21 +31,21 @@ public class ProductDao {
     private List<Product> products = new ArrayList<>();
 
 
-    public List<Product> filterByPriceMin(){
-       return entityManager
+    public List<Product> filterByPriceMin() {
+        return entityManager
                 .createQuery("select min (p.price) from Product as p", Product.class)
                 .getResultList();
     }
 
-    public List<Product> filterByPriceMinMax(){
-        return  entityManager
+    public List<Product> filterByPriceMinMax() {
+        return entityManager
                 .createQuery("select min (p.price)  as min, max (p.price) as max from Product as p", Product.class)
                 .getResultList();
 
     }
 
-    public List<Product> filterByPriceMax(){
-        return  entityManager
+    public List<Product> filterByPriceMax() {
+        return entityManager
                 .createQuery("select max (p.price) from Product as p", Product.class)
                 .getResultList();
 
@@ -73,21 +73,19 @@ public class ProductDao {
         entityManager.merge(product);
     }
 
-
-    public Product update(Long id, Product product) {
-        Product original = getById(id);
-        if (original != null) {
-            original.setName(product.getName());
-            product.setPrice(product.getPrice());
-            entityManager.merge(original);
+    public void update(Product product) {
+        if (product.getId() == null) {
+            throw new IllegalArgumentException();
         }
-        return original;
+        saveOrUpdate(product);
     }
 
 
-    public List<Product> findAll() {
+    public List<Product> findAll(int page) {
         return entityManager
                 .createQuery("select p from Product as p", Product.class)
+                .setFirstResult(10 * (page - 1))
+                .setMaxResults(10)
                 .getResultList();
     }
 
