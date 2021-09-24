@@ -14,17 +14,17 @@ public class UserProduct {
     @Column(name = "price")
     private int price;
 
-
     @Column(name = "count")
     private int count;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
 
 
     public long getId() {
@@ -39,9 +39,10 @@ public class UserProduct {
         return count;
     }
 
-    public User getUser() {
-        return user;
+    public Client getUser() {
+        return client;
     }
+
 
     public Product getProduct() {
         return product;

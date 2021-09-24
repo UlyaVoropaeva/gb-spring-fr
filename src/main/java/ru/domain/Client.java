@@ -3,10 +3,9 @@ package ru.domain;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 @Table(name = "users")
-public class User {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +15,7 @@ public class User {
 
     @Column(name = "name")
     private String name;
-
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "client")
     private List<UserProduct> userProducts;
 
     public List<UserProduct> getUserProducts() {

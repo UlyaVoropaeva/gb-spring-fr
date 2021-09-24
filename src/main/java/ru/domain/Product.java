@@ -1,6 +1,7 @@
 package ru.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -13,9 +14,10 @@ public class Product {
     @Column(name = "id")
     private Long id;
 
-
+    @NotBlank(message = "Product name cannot be blank")
     @Column(name = "name", length = 50)
     private String name;
+
 
     @Column(name = "price")
     private int price;
@@ -30,11 +32,11 @@ public class Product {
     public Product() {
     }
 
-
     public Product(String name, int price) {
         this.name = name;
         this.price = price;
     }
+
 
     public Product(Long id, String name, int price) {
         this.id = id;
