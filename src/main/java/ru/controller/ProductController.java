@@ -1,11 +1,11 @@
 package ru.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.domain.Product;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.errores.ProductError;
 import ru.repositiry.ProductRepository;
 
 import java.net.URI;
@@ -74,5 +74,4 @@ public class ProductController {
         productService.deleteById(id);
         return HttpStatus.OK.value();
     }
-
 }

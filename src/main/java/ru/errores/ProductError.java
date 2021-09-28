@@ -1,4 +1,4 @@
-package ru.controller;
+package ru.errores;
 
 public class ProductError {
     private int statusCode;
