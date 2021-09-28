@@ -1,118 +1,77 @@
 package ru.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.ResponseEntity;
 import ru.domain.Product;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.errores.ProductError;
 import ru.repositiry.ProductRepository;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/products")
 public class ProductController {
 
-    private int page;
 
-    //private final ProductService productService;
     private final ProductRepository productService;
 
     @Autowired
     public ProductController(ProductRepository productService) {
         this.productService = productService;
     }
-   /* public ProductController( ProductService productService) {
-        this.productService = productService;
 
-    }*/
 
-    @GetMapping()
-    public String findAll( Model model) {
-        List<Product> products = new ArrayList<>();
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Product> page = productService.findAll(pageable);
-        productService.findAll().forEach(products::add);
-        model.addAttribute("products", productService.findAll());
+    @GetMapping
+    public ResponseEntity<List<Product>> findAll() {
+        return ResponseEntity.ok(productService.findAll());
+    }
 
-        return "products";
+    @GetMapping
+    @RequestMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable long id) {
+        Optional<Product> maybeProduct = productService.findById(id);
+        if (maybeProduct.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(maybeProduct.get());
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> save(@RequestBody Product product) {
+        Product newlyCreated = productService.save(product);
+        return ResponseEntity.created(URI.create("/products/" + newlyCreated.getId())).body(newlyCreated);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ProductError> handleException(RuntimeException ex) {
+        return ResponseEntity.internalServerError()
+                .body(new ProductError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
     }
 
 
     @GetMapping("/min")
-    public List<Product> filterByPriceMin() {
-        List<Product> products = new ArrayList<>();
-      //  productService.filterByPriceMin().forEach(products::add);
-        productService.filterByPriceMin().forEach(products::add);
-        return products;
+    public ResponseEntity<Iterable<Product>> filterByPriceMin() {
+        return ResponseEntity.ok(productService.filterByPriceMin());
     }
 
+
     @GetMapping("/max")
-    public List<Product> filterByPriceMax(){
-        List<Product> products = new ArrayList<>();
-        productService.filterByPriceMax().forEach(products::add);
-        return products;
+    public ResponseEntity<Iterable<Product>> filterByPriceMax() {
+        return ResponseEntity.ok(productService.filterByPriceMax());
     }
 
     @GetMapping("/maxmin")
-    public List<Product> filterByPriceMinMax() {
-        List<Product> products = new ArrayList<>();
-        productService.filterByPriceMinMax().forEach(products::add);
-        return products;
+    public ResponseEntity<Iterable<Product>> filterByPriceMinMax() {
+        return ResponseEntity.ok(productService.filterByPriceMinMax());
     }
 
-
-
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable long id, Model model) {
-        Product product = productService.getById(id);
-        model.addAttribute("products", product);
-        return "edit";
-    }
-    @PostMapping("/update")
-    public String update(@RequestParam Long id,
-                         @RequestParam(value = "/edit", required = false) boolean edit) {
-        productService.update(id );
-        return "redirect:/products/upd";
-    }
-
-    @PostMapping
-    public String save(@Valid Product product, BindingResult result) {
-        if (result.hasErrors()) {
-            return "product-add";
-        }
-        productService.save(product);
-        return "redirect:/products/mvc";
-    }
-
-
-    @GetMapping("/form")
-    public String saveForm(Product product) {
-        return "product-add";
-    }
-
-    @GetMapping("/{id}")
-    public Product findById(@PathVariable Long id)  {
-        return productService.getById(id);
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    @DeleteMapping(value = "/delete/{id}")
+    public int delete(@PathVariable(name = "id") long id) {
         productService.deleteById(id);
-        return "redirect:/";
+        return HttpStatus.OK.value();
     }
-
-  /*  @PostMapping()
-    public ResponseEntity<?> create(@RequestBody Product product) {
-        productService.saveOrUpdate(product);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-   */
-
 }

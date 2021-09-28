@@ -12,12 +12,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @NotBlank(message = "Product name cannot be blank")
     @Column(name = "name", length = 50)
     private String name;
-
 
     @Column(name = "price")
     private int price;
@@ -43,7 +42,6 @@ public class Product {
         this.name = name;
         this.price = price;
     }
-
 
     public Long getId() {
         return id;
