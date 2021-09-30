@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.domain.Product;
 import org.springframework.web.bind.annotation.*;
+import ru.domain.ProductDTO;
+import ru.errores.ApiError;
+import ru.mapper.ProductMapper;
 import ru.repositiry.ProductRepository;
 
 import java.net.URI;
@@ -26,8 +29,9 @@ public class ProductController {
 
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll() {
-        return ResponseEntity.ok(productService.findAll());
+    public ResponseEntity<List<ProductDTO>> findAll() {
+        return ResponseEntity.ok(
+                ProductMapper.PRODUCT_MAPPER.fromProductList(productService.findAll()));
     }
 
     @GetMapping
@@ -44,12 +48,6 @@ public class ProductController {
     public ResponseEntity<Product> save(@RequestBody Product product) {
         Product newlyCreated = productService.save(product);
         return ResponseEntity.created(URI.create("/products/" + newlyCreated.getId())).body(newlyCreated);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<ProductError> handleException(RuntimeException ex) {
-        return ResponseEntity.internalServerError()
-                .body(new ProductError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
     }
 
 

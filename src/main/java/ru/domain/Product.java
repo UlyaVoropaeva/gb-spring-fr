@@ -18,15 +18,14 @@ public class Product {
     @Column(name = "name", length = 50)
     private String name;
 
-
     @Column(name = "price")
     private int price;
 
     @OneToMany(mappedBy = "product")
-    private List<UserProduct> userProducts;
+    private List<Cart> carts;
 
-    public List<UserProduct> getUserProducts() {
-        return userProducts;
+    public List<Cart> getUserProducts() {
+        return carts;
     }
 
     public Product() {
@@ -36,7 +35,6 @@ public class Product {
         this.name = name;
         this.price = price;
     }
-
 
     public Product(Long id, String name, int price) {
         this.id = id;

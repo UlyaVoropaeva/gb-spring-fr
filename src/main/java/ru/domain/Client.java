@@ -12,14 +12,13 @@ public class Client {
     @Column(name = "id")
     private long id;
 
-
     @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "client")
-    private List<UserProduct> userProducts;
+    private List<Cart> carts;
 
-    public List<UserProduct> getUserProducts() {
-        return userProducts;
+    public List<Cart> getUserProducts() {
+        return carts;
     }
 
     public long getId() {
